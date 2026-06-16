@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+
+# Environment
+.env
+
+# PyCharm
+.idea/
+
+# Reports
+allure-report/
+reports/
+
+# macOS
+.DS_Store
+
+# pytest
+.pytest_cache/

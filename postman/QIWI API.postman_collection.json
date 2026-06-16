@@ -1,0 +1,259 @@
+{
+  "info": {
+    "_postman_id": "517b4125-196e-4732-ae48-3923b0ade9b4",
+    "name": "QIWI API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "10297931",
+    "_collection_link": "https://go.postman.co/collection/10297931-517b4125-196e-4732-ae48-3923b0ade9b4?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Balance",
+      "item": [
+        {
+          "name": "Person ID",
+          "request": {
+            "auth": {
+              "type": "bearer"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/person-profile/v1/profile/current",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "person-profile",
+                "v1",
+                "profile",
+                "current"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create balance",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(",
+                  "\"Balance > 0\",",
+                  "",
+                  "function(){",
+                  "const body=pm.response.json()",
+                  "const balance=body.accounts[0].balance.amount",
+                  "pm.expect(",
+                  "balance",
+                  ")",
+                  ".to.be.above(",
+                  "0",
+                  ")",
+                  "",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/funding-sources/v2/persons/{{personId}}/accounts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "funding-sources",
+                "v2",
+                "persons",
+                "{{personId}}",
+                "accounts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Last 10 payments",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "U1QtOTkwMTAyLWNud3FpdWhmbzg3M",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}payment-history/v2/persons/{{personId}}/payments?rows=10&operation=OUT&sources%5B0%5D=QW_RUB&sources%5B1%5D=CARD",
+              "host": [
+                "{{baseUrl}}payment-history"
+              ],
+              "path": [
+                "v2",
+                "persons",
+                "{{personId}}",
+                "payments"
+              ],
+              "query": [
+                {
+                  "key": "rows",
+                  "value": "10"
+                },
+                {
+                  "key": "operation",
+                  "value": "OUT"
+                },
+                {
+                  "key": "sources%5B0%5D",
+                  "value": "QW_RUB"
+                },
+                {
+                  "key": "sources%5B1%5D",
+                  "value": "CARD"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "Create Payment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"id\":\"11111111111111\",\n \"sum\": {\n  \"amount\":1,\n  \"currency\":\"643\"\n },\n \"paymentMethod\": {\n  \"type\":\"Account\",\n  \"accountId\":\"643\"\n },\n \"comment\":\"Комментарий\",\n \"fields\": {\n  \"account\":\"+79121112233\"\n }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/sinap/api/v2/terms/99/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sinap",
+                "api",
+                "v2",
+                "terms",
+                "99",
+                "payments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Execute payment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\":\"1234 1234 1234 1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/sinap/api/refs/bd6fb248-2bdf-49ed-bcb2-9b0a789cfde8/containers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sinap",
+                "api",
+                "refs",
+                "bd6fb248-2bdf-49ed-bcb2-9b0a789cfde8",
+                "containers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Negative",
+      "item": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "Bearer U1QtOTkwMTAyLWNud3FpdWhmbzg3M",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
