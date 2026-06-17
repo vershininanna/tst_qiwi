@@ -3,5 +3,5 @@ pytest
 pytest-playwright
 allure-pytest
 python-dotenv
-pydentic
+pydantic
 faker

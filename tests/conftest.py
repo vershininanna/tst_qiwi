@@ -1,6 +1,7 @@
 import pytest
+
 from api.client import ApiClient
-from api.payments_api import (PaymentApi)
+#from api.payments_api import PaymentApi
 
 
 @pytest.fixture
@@ -9,5 +10,7 @@ def client(playwright):
     yield ApiClient(request)
     request.dispose()
 
-def paments(client):
-    return PaymentApi(client)
+
+#@pytest.fixture
+#def payments(client):
+#    return PaymentApi(client)

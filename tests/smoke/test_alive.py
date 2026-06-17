@@ -1,17 +1,25 @@
 import allure
 
+
 @allure.feature("Service Health")
 @allure.story("API availability")
 def test_service_available(client):
 
     response = client.get(
-        "/payment-history/v2/persons/me/payments"
+        "/person-profile/v1/profile/current"
     )
 
-    assert response.status < 500
+    assert response.status in (200, 401, 403)
 
-    # защита от HTML
-    assert "application/json" in response.headers.get("content-type", "")
+    assert "application/json" in response.headers.get(
+        "content-type", ""
+    )
 
     body = response.json()
+
     assert body is not None
+    assert isinstance(body, dict)
+
+    if response.status == 200:
+        assert "authInfo" in body
+        assert "contractInfo" in body

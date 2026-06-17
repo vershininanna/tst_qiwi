@@ -1,5 +1,3 @@
-#from stdnum.it.codicefiscale import values
-
 from config.settings import BASE_URL, TOKEN
 
 class ApiClient:

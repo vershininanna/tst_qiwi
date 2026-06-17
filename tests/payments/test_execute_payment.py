@@ -4,8 +4,8 @@ import json
 
 
 @allure.feature("Payments")
-@allure.story("Create payment")
-def test_create_payment_one_ruble(client):
+@allure.story("Execute payment")
+def test_execute_created_payment(client):
 
     payment_id = str(uuid.uuid4())
 
@@ -24,17 +24,26 @@ def test_create_payment_one_ruble(client):
         }
     }
 
-    response = client.post(
+    create_response = client.post(
         f"/sinap/api/v2/terms/99/payments/{payment_id}",
         json.dumps(payload)
     )
 
-    assert response.status < 500
+    assert create_response.status < 500
 
-    assert "application/json" in response.headers.get(
-        "content-type", ""
+    status_response = client.get(
+        f"/payment-history/v1/transactions/{payment_id}"
     )
 
-    body = response.json()
+    assert status_response.status < 500
+
+    body = status_response.json()
 
     assert body is not None
+
+    if "status" in body:
+        assert body["status"]["value"] in (
+            "SUCCESS",
+            "WAITING",
+            "IN_PROGRESS"
+        )
